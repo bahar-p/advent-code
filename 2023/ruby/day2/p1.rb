@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'minitest/autorun'
 require 'pry-byebug'
 
@@ -23,7 +24,7 @@ class CubeConundrum
 
   def possible_game_ids
     input.each_line(chomp: true) do |line|
-      game_id, sets = extract_game_info(line)
+      game_id, sets = find_game_info(line)
       game_possible = true
       sets.each do |set|
         cubes = set.split(",").map(&:strip)
@@ -45,7 +46,7 @@ class CubeConundrum
     @eligible_ids
   end
 
-  def extract_game_info(line_data)
+  def find_game_info(line_data)
     match = line_data.match(GAME_INFO_PATTERN)
     game_id = match["id"]
     sets = match["sets"]
@@ -64,7 +65,7 @@ end
 
 class CubeConundrumTest <  MiniTest::Unit::TestCase
   def test_sample_input
-    input = File.new("#{__dir__}/../../inputs/day2/test_p1.txt")
+    input = File.new("#{__dir__}/../../inputs/day2/test.txt")
     cc = CubeConundrum.new(input)
     assert_equal 8, cc.eligible_games_id_sum
   end
